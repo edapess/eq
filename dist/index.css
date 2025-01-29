@@ -1,0 +1,40 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#app{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    top: 20px;
+}
+
+#playButton{
+    border: 2px solid #eceff4    ;
+    width: 100px;
+    height: 50px;
+    border-radius: 50px;
+    background-color: #2e3440;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.icon{
+    width: 20%;
+    fill: #bf616a;
+    transition: all 0.3s;
+}
+
+.displayNone{
+    display: none;
+}
+#playButton:hover{
+    transform: scale(1.1);
+}
