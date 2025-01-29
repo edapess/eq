@@ -38,3 +38,15 @@
 #playButton:hover{
     transform: scale(1.1);
 }
+
+#fftSelect {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    background: #2e3440;
+    color: white;
+    border: 1px solid rgba(163, 190, 140, 0.5);
+    padding: 5px;
+    border-radius: 4px;
+  }

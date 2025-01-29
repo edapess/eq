@@ -5,7 +5,7 @@ const audioSources = [
   "https://cdn.pixabay.com/audio/2024/03/13/audio_e869ee1c98.mp3",
 ];
 
-const FFT_SIZE = window.innerWidth <= 768 ? 256 : 2048;
+let FFT_SIZE = 32;
 const GAP_SIZE = 2;
 const GREED_COLOR = "235, 203, 139";
 const MAX_HEIGHT = 255;
@@ -15,11 +15,12 @@ const playButton = document.querySelector("#playButton");
 const playIcon = document.querySelector(".playIcon");
 const pauseIcon = document.querySelector(".pauseIcon");
 
+//----------- AUDIO ------------
 const audio = new Audio();
-audio.src = audioSources[0];
+audio.src = audioSources[1];
 audio.crossOrigin = "anonymous";
 audio.volume = 1;
-
+//TODO volume control
 const audioContext = new AudioContext();
 const analyser = audioContext.createAnalyser();
 const source = audioContext.createMediaElementSource(audio);
@@ -31,15 +32,36 @@ audio.addEventListener("playing", () => {
   playIcon.classList.add("displayNone");
   pauseIcon.classList.remove("displayNone");
 });
+
 audio.addEventListener("pause", () => {
   playIcon.classList.remove("displayNone");
   pauseIcon.classList.add("displayNone");
 });
 
-const bufferLength = analyser.frequencyBinCount;
-const dataArray = new Uint8Array(bufferLength);
+//TODO handle finish and change song automatically
+//TODO add next and previous button
+//TODO add song list selector
 
-//canvas
+let bufferLength = analyser.frequencyBinCount;
+let dataArray = new Uint8Array(bufferLength);
+const fftSelect = document.querySelector("#fftSelect");
+
+analyser.fftSize = parseInt(fftSelect.value);
+
+fftSelect.addEventListener("change", (e) => {
+  source.disconnect();
+  analyser.disconnect();
+
+  analyser.fftSize = parseInt(e.target.value);
+
+  source.connect(analyser);
+  analyser.connect(audioContext.destination);
+
+  bufferLength = analyser.frequencyBinCount;
+  dataArray = new Uint8Array(bufferLength);
+});
+
+// --------- CANVAS ------
 const canvas = document.createElement("canvas");
 const ctx = canvas.getContext("2d");
 document.body.appendChild(canvas);
